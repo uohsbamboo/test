@@ -6,6 +6,7 @@ import json
 import io
 import random
 import os
+from pandas.io.json import json_normalize
 
 app = Flask(__name__)
 
@@ -19,9 +20,11 @@ def Test():
 		aa = request.get_data()
 		bb = aa.decode('UTF-8')
 		cc = json.loads(bb)
-		dd = cc["rows"][1]
-
-		return str(dd)
+		dd = cc["rows"]
+		ee = json_normalize(dd)
+		ff = ee.sort_values("timestamp")
+		ff.to_csv('ff.csv')
+		return "Success"
 	except:
 		return "error"
 
