@@ -23,7 +23,7 @@ def Test():
 		dd = cc["rows"]
 		ee = json_normalize(dd)
 		ff = ee.sort_values("timestamp")
-		ff.to_csv(r"C:\Users\km60749\test\ff.csv")
+		ff.to_csv("ff.csv")
 		return "Success"
 	except:
 		return "error"
