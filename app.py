@@ -3,10 +3,13 @@ from flask import request
 import pandas as pd
 import numpy as np
 import json
+import base64
 import io
 import random
 import os
 from pandas.io.json import json_normalize
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
@@ -14,16 +17,43 @@ app = Flask(__name__)
 def index():
     return "Hello world"
 
-@app.route("/Testjs", methods=["GET","POST"])
-def Test():
+@app.route("/CSV", methods=["GET","POST"])
+def CSV():
 	try:
 		aa = request.get_data()
 		bb = aa.decode('UTF-8')
 		cc = json.loads(bb)
 		dd = cc["rows"]
 		ee = json_normalize(dd)
+		lst = ee.columns.tolist()
+		lst.remove('timestamp')
+		lst.insert(1, 'timestamp')
+		tmp_df_1 = ee[lst]
+		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
+		return tmp_df_2
+	except:
+		return "error"
+
+@app.route("/Seaborn", methods=["GET","POST"])
+def SNS():
+	try:
+		aa = request.get_data()
+		bb = aa.decode('UTF-8')
+		cc = json.loads(bb)
+		dd = cc["rows"]
+		ee = json_normalize(dd)
+		lst = ['Ch2','Ch3','Ch5','Ch6','Ch7','Ch9','DR_Ch2','DR_Ch3','DR_Ch4','DR_Ch5','DR_Ch6','DR_Ch7','DR_Ch8','DR_Ch9']
+		tmp_df_1 = ee[lst]
+		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
+		tmp_df_corr = tmp_df_2.corr()
+		colormap = plt.cm.RdBu
+		fig = sns.heatmap(tmp_df_corr.astype(float).corr(),linewidths=0.1,vmax=1.0, square=True, cmap=colormap, linecolor='white', annot=True)
 		ee.to_csv("ff.csv")
-		return "Success"
+		buf = io.BytesIO()
+		fig.savefig(buf,format='png')
+		buf.seek(0)
+		pic = base64.b64encode(buf.read())
+		return pic
 	except:
 		return "error"
 
