@@ -27,7 +27,7 @@ def CSV():
 		ee = json_normalize(dd)
 		lst = ee.columns.tolist()
 		lst.remove('timestamp')
-		lst.insert(1, 'timestamp')
+		lst.insert(0, 'timestamp')
 		tmp_df_1 = ee[lst]
 		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
 		tmp_df_2.to_csv('ff.csv')
