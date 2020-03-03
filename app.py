@@ -30,7 +30,8 @@ def CSV():
 		lst.insert(1, 'timestamp')
 		tmp_df_1 = ee[lst]
 		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
-		return tmp_df_2
+		tmp_df_2.to_csv('ff.csv')
+		return "Success"
 	except:
 		return "error"
 
