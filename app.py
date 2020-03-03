@@ -46,10 +46,7 @@ def SNS():
 		lst = ['Ch2','Ch3','Ch5','Ch6','Ch7','Ch9','DR_Ch2','DR_Ch3','DR_Ch4','DR_Ch5','DR_Ch6','DR_Ch7','DR_Ch8','DR_Ch9']
 		tmp_df_1 = ee[lst]
 		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
-		tmp_df_corr = tmp_df_2.corr()
-		colormap = plt.cm.RdBu
-		fig = sns.heatmap(tmp_df_corr.astype(float).corr(),linewidths=0.1,vmax=1.0, square=True, cmap=colormap, linecolor='white', annot=True)
-		ee.to_csv("ff.csv")
+		fig = sns.heatmap(tmp_df_2.astype(float).corr(),linewidths=0.1,vmax=1.0, square=True, cmap='RdBu', linecolor='white', annot=True)
 		buf = io.BytesIO()
 		fig.savefig(buf,format='png')
 		buf.seek(0)
