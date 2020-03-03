@@ -20,11 +20,10 @@ def Test():
 		aa = request.get_data()
 		bb = aa.decode('UTF-8')
 		cc = json.loads(bb)
-		dd = cc["rows"][1]
-		#ee = json_normalize(dd)
-		#ff = ee.sort_values("timestamp")
-		#ff.to_csv("ff.csv")
-		return dd
+		dd = cc["rows"]
+		ee = json_normalize(dd)
+		ee.to_csv("ff.csv")
+		return "Success"
 	except:
 		return "error"
 
