@@ -1,3 +1,6 @@
 Flask
 pandas
 numpy
+pybase64
+matplotlib
+seaborn
