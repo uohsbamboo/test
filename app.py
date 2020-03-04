@@ -48,7 +48,7 @@ def SNS():
 		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
 		fig = sns.heatmap(tmp_df_2.astype(float).corr(),linewidths=0.2,vmax=1.0, square=True, cmap='RdBu', linecolor='white', annot=True).get_figure()
 		buf = io.BytesIO()
-		plt = figsize=(14,12)
+		plt.figsize=(14,12)
 		fig.savefig(buf,format='png',bbox_inches="tight")
 		buf.seek(0)
 		pic = base64.b64encode(buf.read())
