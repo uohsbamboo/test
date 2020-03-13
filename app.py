@@ -51,7 +51,7 @@ def FFT():
 		lst.insert(0, 'timestamp')
 		tmp_df_1 = ee[lst]
 		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
-		tmp_df_2 = tmp_df_2.drop(['Unnamed: 0', 'timestamp'],axis=1)
+		tmp_df_2 = tmp_df_2.drop('timestamp',axis=1)
 
 		dt = 0.1 # サンプリング間隔
 		M = 512 #FFTサイズ
