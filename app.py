@@ -10,6 +10,9 @@ import os
 from pandas.io.json import json_normalize
 import seaborn as sns
 import matplotlib.pyplot as plt
+from scipy.signal import spectrogram,stft
+from scipy.signal.windows import hann
+from scipy.fftpack import fftfreq
 
 app = Flask(__name__)
 
@@ -32,6 +35,46 @@ def CSV():
 		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
 		tmp_df_2.to_csv('ff.csv')
 		return "Success"
+	except:
+		return "error"
+
+def FFT():
+	try:
+		aa = request.get_data()
+		bb = aa.decode('UTF-8')
+		cc = json.loads(bb)
+		dd = cc["rows"]
+		ee = json_normalize(dd)
+		lst = ee.columns.tolist()
+		lst.remove('timestamp')
+		lst.insert(0, 'timestamp')
+		tmp_df_1 = ee[lst]
+		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
+		tmp_df_2 = tmp_df_2.drop(['Unnamed: 0', 'timestamp'],axis=1)
+
+		dt = 0.1 # サンプリング間隔
+		M = 512 #FFTサイズ
+		win = hann(M) #窓関数
+		acf = 1/(sum(win)/M)
+		overlap = 0.5 #オーバラップ
+		overlap_samples = int(round(M*overlap)) # overlap in samples
+
+		# 周波数スケール作成
+		freq = fftfreq(M, dt)[1:int(M//2.56)]
+
+		df = pd.DataFrame({'freq':freq})
+		collist = list(tmp_df_2.columns)
+
+		for colname in collist:
+			x = tmp_df_2[colname].values
+    		#振幅
+			t, f, S = stft(x, fs=10, window=win, nperseg=M, noverlap=overlap_samples, padded=False, return_onesided=False,boundary=None)
+			SS = acf*np.abs(S)
+			avg_SS =np.mean(SS,axis=1)
+			SSS = pd.Series(data=avg_SS[1:int(M//2.56)],name=colname, dtype='float')
+			df = pd.concat([df, SSS], axis=1)
+		FFT = df.to_Json()
+		return FFT
 	except:
 		return "error"
 
