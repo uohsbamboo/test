@@ -38,6 +38,7 @@ def CSV():
 	except:
 		return "error"
 
+@app.route("/FFT", methods=["GET","POST"])
 def FFT():
 	try:
 		aa = request.get_data()
