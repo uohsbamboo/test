@@ -74,7 +74,7 @@ def FFT():
 			avg_SS =np.mean(SS,axis=1)
 			SSS = pd.Series(data=avg_SS[1:int(M//2.56)],name=colname, dtype='float')
 			df = pd.concat([df, SSS], axis=1)
-		FFT = df.to_json()
+		FFT = df.to_json(orinet="split")
 		return FFT
 	except:
 		return "error"
