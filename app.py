@@ -79,6 +79,22 @@ def FFT():
 	except:
 		return "error"
 
+@app.route("/Multi", methods=["GET","POST"])
+def FFT_messh():
+	try:
+		aa = request.get_data()
+		bb = aa.decode('UTF-8')
+		#cc = json.loads(bb)
+		#dd = cc["rows"]
+		#ee = json_normalize(dd)
+		#lst = ee.columns.tolist()
+		#lst.remove('timestamp')
+		#lst.insert(0, 'timestamp')
+
+		return bb
+	except:
+		return "error"
+
 @app.route("/Seaborn", methods=["GET","POST"])
 def SNS():
 	try:
