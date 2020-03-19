@@ -84,6 +84,7 @@ def FFT_messh():
 	try:
 		aa = request.get_data()
 		bb = aa.decode('UTF-8')
+		cc = bb[2]
 		#cc = json.loads(bb)
 		#dd = cc["rows"]
 		#ee = json_normalize(dd)
@@ -91,7 +92,7 @@ def FFT_messh():
 		#lst.remove('timestamp')
 		#lst.insert(0, 'timestamp')
 
-		return bb
+		return cc
 	except:
 		return "error"
 
