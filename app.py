@@ -82,7 +82,7 @@ def FFT():
 @app.route("/Multi", methods=["GET","POST"])
 def Multi():
 	try:
-		aa = request.get_data().lstrip("[").rstrip("]")
+		aa = request.get_data()#.lstrip("[").rstrip("]")
 		bb = aa.split(',',2)
 		#bb = aa.decode('UTF-8')
 		#cc = aa[0]
