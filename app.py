@@ -82,7 +82,7 @@ def FFT():
 @app.route("/Multi", methods=["GET","POST"])
 def Multi():
 	try:
-		aa = [request.get_data()]
+		aa = request.get_data()
 		#bb = aa.decode('UTF-8')
 		cc = aa[0]
 		#cc = json.loads(bb)
@@ -92,7 +92,7 @@ def Multi():
 		#lst.remove('timestamp')
 		#lst.insert(0, 'timestamp')
 
-		return aa
+		return cc
 	except:
 		return "error"
 
