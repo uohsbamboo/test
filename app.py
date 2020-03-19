@@ -83,7 +83,7 @@ def FFT():
 def Multi():
 	try:
 		aa = request.get_data().lstrip("[").rstrip("]")
-		bb = [aa]
+		bb = aa.split(',',2)
 		#bb = aa.decode('UTF-8')
 		#cc = aa[0]
 		#cc = json.loads(bb)
