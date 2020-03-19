@@ -80,10 +80,10 @@ def FFT():
 		return "error"
 
 @app.route("/Multi", methods=["GET","POST"])
-def FFT_messh():
+def Multi():
 	try:
 		aa = request.get_data()
-		bb = aa.decode('UTF-8')
+		#bb = aa.decode('UTF-8')
 		#cc = aa[0]
 		#cc = json.loads(bb)
 		#dd = cc["rows"]
@@ -92,7 +92,7 @@ def FFT_messh():
 		#lst.remove('timestamp')
 		#lst.insert(0, 'timestamp')
 
-		return bb
+		return aa
 	except:
 		return "error"
 
