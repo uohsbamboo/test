@@ -84,7 +84,7 @@ def Multi():
 	try:
 		aa = request.get_data()
 		#bb = aa.decode('UTF-8')
-		cc = aa[0]
+		#cc = aa[0]
 		#cc = json.loads(bb)
 		#dd = cc["rows"]
 		#ee = json_normalize(dd)
@@ -92,7 +92,7 @@ def Multi():
 		#lst.remove('timestamp')
 		#lst.insert(0, 'timestamp')
 
-		return cc
+		return aa
 	except:
 		return "error"
 
