@@ -82,9 +82,9 @@ def FFT():
 @app.route("/Multi", methods=["GET","POST"])
 def Multi():
 	try:
-		aa = request.get_data()
+		aa = [request.get_data()]
 		#bb = aa.decode('UTF-8')
-		#cc = aa[0]
+		cc = aa[0]
 		#cc = json.loads(bb)
 		#dd = cc["rows"]
 		#ee = json_normalize(dd)
