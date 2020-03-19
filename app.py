@@ -83,7 +83,7 @@ def FFT():
 def FFT_messh():
 	try:
 		aa = request.get_data()
-		bb = aa.decode('UTF-8')
+		bb = aa.decode('UTF-8').tolist()
 		cc = bb[0]
 		#cc = json.loads(bb)
 		#dd = cc["rows"]
