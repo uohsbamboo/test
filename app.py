@@ -97,6 +97,12 @@ def Multi():
 	except:
 		return "error"
 
+@app.route("/Return",methods=["GET","POST"])
+def Return():
+	aa = request.get_data()
+	bb = aa.decode('UTF-8')
+	return str(bb)
+
 @app.route("/Seaborn", methods=["GET","POST"])
 def SNS():
 	try:
