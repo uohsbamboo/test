@@ -79,21 +79,49 @@ def FFT():
 	except:
 		return "error"
 
-@app.route("/Multi", methods=["GET","POST"])
-def Multi():
-	try:
-		aa = request.get_data().lstrip("[").rstrip("]")
-		#bb = aa.split(',',2)
-		#bb = aa.decode('UTF-8')
-		#cc = bb[0]
-		#cc = json.loads(bb)
-		#dd = cc["rows"]
-		#ee = json_normalize(dd)
-		#lst = ee.columns.tolist()
-		#lst.remove('timestamp')
-		#lst.insert(0, 'timestamp')
+@app.route("/FFT_para", methods=["GET","POST"])
+def FFT_para():
+	try:    
+		aa = request.get_data()
+		bb = aa.decode('UTF-8')
+		cc = json.loads(bb)
+		
+		Json_Samp = cc["Samp"]
+		Json_Sz = cc["Sz"]
+		Json_rows = cc["rows"]
+		Json_Overlap = cc["OLR"]
+	    
+		Norm_rows = json_normalize(Json_rows)
+		df_lst = Norm_rows.columns.tolist()
+		df_lst.remove('timestamp')
+		df_lst.insert(0, 'timestamp')
+		tmp_df_1 = Norm_rows[df_lst]
+		tmp_df_2 = tmp_df_1.dropna(how='any').dropna(how='all', axis=1)
+		df = tmp_df_2.drop('timestamp',axis=1)
 
-		return aa
+		dt = 1/Json_Samp # サンプリング間隔
+		M = Json_Sz #FFTサイズ
+		win = hann(M) #窓関数
+		acf = 1/(sum(win)/M)
+		overlap = Json_Overlap #オーバラップ
+		overlap_samples = int(round(M*overlap)) # overlap in samples
+
+		# 周波数スケール作成
+		freq = fftfreq(M, dt)[1:int(M//2.56)]
+
+		df_FFT = pd.DataFrame({'freq':freq})
+		collist = list(df.columns)
+
+		for colname in collist:
+			x = df[colname].values
+    		#振幅
+			t, f, S = stft(x, fs=Json_Samp, window=win, nperseg=M, noverlap=overlap_samples, padded=False, return_onesided=False,boundary=None)
+			SS = acf*np.abs(S)
+			avg_SS =np.mean(SS,axis=1)
+			SSS = pd.Series(data=avg_SS[1:int(M//2.56)],name=colname, dtype='float')
+			df_FFT = pd.concat([df_FFT, SSS], axis=1)
+		FFT = df.to_json(orient='table')
+		return FFT
 	except:
 		return "error"
 
