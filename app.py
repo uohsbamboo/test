@@ -120,7 +120,7 @@ def FFT_para():
 			avg_SS =np.mean(SS,axis=1)
 			SSS = pd.Series(data=avg_SS[1:int(M//2.56)],name=colname, dtype='float')
 			df_FFT = pd.concat([df_FFT, SSS], axis=1)
-		FFT = df.to_json(orient='table')
+		FFT = df_FFT.to_json(orient='table')
 		return FFT
 	except:
 		return "error"
